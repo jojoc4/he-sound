@@ -1,0 +1,45 @@
+﻿@model HESound.Models.SoundPersonViewModel
+
+@{
+    ViewData["Title"] = "";
+}
+
+<form asp-controller="Home" asp-action="Index" method="get">
+    <p>
+
+        <div class="row">
+            <button class="btn btn-danger col-sm-1" id="stop">Stop</button>
+            <label asp-for="PersonId" class="col-sm-1 col-form-label">Personne</label>
+            <div class="col-sm-4">
+                <select asp-for="PersonId" class="form-control" asp-items="Model.People">
+                    <option value="0">Toutes</option>
+                </select>
+                <span asp-validation-for="PersonId" class="text-danger"></span>
+            </div>
+
+            <label asp-for="SearchString" class="col-sm-1 col-form-label"></label>
+
+            <div class="col-sm-4">
+                <input asp-for="SearchString" class="form-control">
+                <span asp-validation-for="SearchString" class="text-danger"></span>
+            </div>
+
+            <input type="submit" value="Filter" class="btn btn-primary col-sm-1">
+        </div>
+    </p>
+</form>
+
+<div class="row row-cols-1 row-cols-md-4 g-4">
+    @foreach (var item in Model.Sounds)
+    {
+        <div class="col sound" soundId="@Html.DisplayFor(modelItem => item.SoundId)">
+            <div class="card text-center h-100 w-100 h-100">
+                <img class="card-img" src="/People/File/@Html.DisplayFor(modelItem => item.PersonId)" alt="Image de la personne">
+                <div class=".card-img-overlay">
+                    <span class="card-text">@Html.DisplayFor(modelItem => item.Title)</span>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

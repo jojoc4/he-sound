@@ -1,0 +1,38 @@
+﻿@model HESound.Models.PersonUploadViewModel
+
+@{
+    ViewData["Title"] = "Personne - Création";
+}
+
+<h1>Personne - Création</h1>
+
+<h4>Personne</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form enctype="multipart/form-data" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FormFile"></label>
+                <input asp-for="FormFile" type="file" class="form-control">
+                <span asp-validation-for="FormFile"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Créer" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Retour</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
