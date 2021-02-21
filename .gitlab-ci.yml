@@ -1,0 +1,43 @@
+image: docker:git
+services:
+    - docker:dind
+
+stages:
+    - build
+    - push-latest
+
+variables:
+    DOCKER_IMAGE:        registry.jojoc4.ch/hesound:${CI_BUILD_REF_NAME}
+    DOCKER_LATEST_IMAGE: registry.jojoc4.ch/hesound:latest
+
+#
+# Make sure we are logged into the GitLab container registry for each script.
+#
+before_script:
+#    - docker login -u jojoc4 -p ${CI_DOCKERHUB_PASSWORD}
+
+#
+# Build a docker image using the files in the 'docker/' subdirectory.
+#
+build:
+    stage: build
+    tags:
+        - ubuntu-docker
+    script:
+        - docker build -t ${DOCKER_IMAGE} .
+        - docker push ${DOCKER_IMAGE}
+
+
+#
+# Tag the master image as 'latest'.
+#
+push-latest:
+    stage: push-latest
+    tags:
+        - ubuntu-docker
+    script:
+        - docker pull ${DOCKER_IMAGE}
+        - docker tag ${DOCKER_IMAGE} ${DOCKER_LATEST_IMAGE}
+        - docker push ${DOCKER_LATEST_IMAGE}
+    only:
+        - master
