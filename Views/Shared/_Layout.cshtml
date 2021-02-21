@@ -62,12 +62,15 @@
     <script>
         $(document).ready(function () {
             $(".sound").on("click", function () {
+                $("#stop").prop("disabled", false);
                 document.getElementById("player").src = "/Sounds/File/" + $(this).attr("soundId");
                 document.getElementById("player").load();
                 document.getElementById("player").play();
             });
-            $("#stop").on("click", function () {
+            $("#stop").on("click", function (event) {
+                event.preventDefault();
                 document.getElementById("player").pause();
+                $("#stop").prop("disabled", true);
             });
         });
     </script>

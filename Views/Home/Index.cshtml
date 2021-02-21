@@ -6,9 +6,8 @@
 
 <form asp-controller="Home" asp-action="Index" method="get">
     <p>
-
         <div class="row">
-            <button class="btn btn-danger col-sm-1" id="stop">Stop</button>
+            <button class="btn btn-danger col-sm-1" id="stop" disabled="true">Stop</button>
             <label asp-for="PersonId" class="col-sm-1 col-form-label">Personne</label>
             <div class="col-sm-4">
                 <select asp-for="PersonId" class="form-control" asp-items="Model.People">
@@ -17,7 +16,7 @@
                 <span asp-validation-for="PersonId" class="text-danger"></span>
             </div>
 
-            <label asp-for="SearchString" class="col-sm-1 col-form-label"></label>
+            <label asp-for="SearchString" class="col-sm-1 col-form-label">Recherche</label>
 
             <div class="col-sm-4">
                 <input asp-for="SearchString" class="form-control">
@@ -29,17 +28,43 @@
     </p>
 </form>
 
-<div class="row row-cols-1 row-cols-md-4 g-4">
+<div class="card-deck">
+    @{
+        var numCards = 0;
+    }
     @foreach (var item in Model.Sounds)
     {
-        <div class="col sound" soundId="@Html.DisplayFor(modelItem => item.SoundId)">
-            <div class="card text-center h-100 w-100 h-100">
-                <img class="card-img" src="/People/File/@Html.DisplayFor(modelItem => item.PersonId)" alt="Image de la personne">
-                <div class=".card-img-overlay">
-                    <span class="card-text">@Html.DisplayFor(modelItem => item.Title)</span>
-                </div>
+        @if (numCards % 2 == 0)
+        {
+            <div class="w-100 d-none d-sm-block d-md-none">
+                <!-- wrap every 2 on sm-->
+            </div>
+        }
+        @if (numCards % 3 == 0)
+        {
+            <div class="w-100 d-none d-md-block d-lg-none">
+                <!-- wrap every 3 on md-->
+            </div>
+        }
+        @if (numCards % 4 == 0)
+        {
+            <div class="w-100 d-none d-lg-block d-xl-none">
+                <!-- wrap every 4 on lg-->
+            </div>
+        }
+        @if (numCards % 5 == 0)
+        {
+            <div class="w-100 d-none d-xl-block">
+                <!-- wrap every 5 on xl-->
+            </div>
+        }
+        <div class="card mb-4 sound text-center" style="width:200px" soundId="@Html.DisplayFor(modelItem => item.SoundId)">
+            <img class="card-img" height="200px" src="/People/File/@Html.DisplayFor(modelItem => item.PersonId)" alt="Image de la personne">
+            <div class=".card-img-overlay">
+                <span class="card-text">@Html.DisplayFor(modelItem => item.Title)</span>
             </div>
         </div>
+        numCards++;
     }
 </div>
 
