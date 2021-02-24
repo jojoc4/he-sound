@@ -67,6 +67,9 @@
                 document.getElementById("player").load();
                 document.getElementById("player").play();
             });
+            $("#player").bind('ended', function () {
+                $("#stop").prop("disabled", true);
+            });
             $("#stop").on("click", function (event) {
                 event.preventDefault();
                 document.getElementById("player").pause();
